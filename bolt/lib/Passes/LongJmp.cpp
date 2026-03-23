@@ -467,15 +467,23 @@ uint64_t LongJmpPass::getSymbolAddress(const BinaryContext &BC,
     assert(Iter != BBAddresses.end() && "Unrecognized BB");
     return Iter->second;
   }
-  uint64_t EntryID = 0;
-  const BinaryFunction *TargetFunc = BC.getFunctionForSymbol(Target, &EntryID);
+  const BinaryFunction *TargetFunc = BC.getFunctionForSymbol(Target);
   auto Iter = HotAddresses.find(TargetFunc);
-  if (Iter == HotAddresses.end() || (TargetFunc && EntryID)) {
-    // Look at BinaryContext's resolution for this symbol - this is a symbol not
-    // mapped to a BinaryFunction
+  if (Iter == HotAddresses.end()) {
     ErrorOr<uint64_t> ValueOrError = BC.getSymbolValue(*Target);
     assert(ValueOrError && "Unrecognized symbol");
     return *ValueOrError;
+  }
+  // Check if Target is a secondary entry point. Primary symbols are a small
+  // list so this is O(1) in practice, avoiding the O(N) linear scan in
+  // getEntryIDForSymbol() which is prohibitively expensive for large binaries.
+  if (TargetFunc) {
+    bool IsPrimarySymbol = llvm::is_contained(TargetFunc->getSymbols(), Target);
+    if (!IsPrimarySymbol) {
+      ErrorOr<uint64_t> ValueOrError = BC.getSymbolValue(*Target);
+      assert(ValueOrError && "Unrecognized symbol");
+      return *ValueOrError;
+    }
   }
   return Iter->second;
 }
