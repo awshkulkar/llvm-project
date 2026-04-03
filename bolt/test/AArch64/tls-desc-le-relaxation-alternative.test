@@ -1,0 +1,11 @@
+# Check that BOLT handles case when TLSDESC is relaxed to LE
+# with NOP+NOP+MOVZ+MOVK layout (as produced by some linkers like mold).
+# The TLSDESC_ADD_LO12 relocation lands on a MOVZ instruction, which is
+# not a valid target for the S_LO12 specifier.
+
+RUN: yaml2obj %S/Inputs/tls-desc-le-relax.yaml -o %t.exe
+RUN: llvm-bolt %t.exe -o %t.bolt 2>&1 | FileCheck %s
+
+CHECK: BOLT-INFO: Target architecture: aarch64
+CHECK-DAG: BOLT-INFO: Starting stub-insertion pass
+CHECK-DAG: BOLT-INFO: setting _end

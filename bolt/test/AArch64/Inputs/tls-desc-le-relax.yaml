@@ -1,0 +1,330 @@
+--- !ELF
+FileHeader:
+  Class:           ELFCLASS64
+  Data:            ELFDATA2LSB
+  Type:            ET_EXEC
+  Machine:         EM_AARCH64
+ProgramHeaders:
+  - Type:            PT_PHDR
+    Flags:           [ PF_R ]
+    VAddr:           0x200040
+    Align:           0x8
+    Offset:          0x40
+  - Type:            PT_LOAD
+    Flags:           [ PF_R ]
+    FirstSec:        .eh_frame
+    LastSec:         .eh_frame_hdr
+    VAddr:           0x200000
+    Align:           0x10000
+    Offset:          0x0
+  - Type:            PT_LOAD
+    Flags:           [ PF_X, PF_R ]
+    FirstSec:        .text
+    LastSec:         .text
+    VAddr:           0x2102F0
+    Align:           0x10000
+    Offset:          0x2F0
+  - Type:            PT_LOAD
+    Flags:           [ PF_W, PF_R ]
+    FirstSec:        .tbss
+    LastSec:         .relro_padding
+    VAddr:           0x2203B0
+    Align:           0x10000
+    Offset:          0x3B0
+  - Type:            PT_LOAD
+    Flags:           [ PF_W, PF_R ]
+    FirstSec:        .got.plt
+    LastSec:         .got.plt
+    VAddr:           0x2303B8
+    Align:           0x10000
+    Offset:          0x3B8
+  - Type:            PT_TLS
+    Flags:           [ PF_R ]
+    FirstSec:        .tbss
+    LastSec:         .tbss
+    VAddr:           0x2203B0
+    Align:           0x4
+    Offset:          0x3B0
+  - Type:            PT_GNU_EH_FRAME
+    Flags:           [ PF_R ]
+    FirstSec:        .eh_frame_hdr
+    LastSec:         .eh_frame_hdr
+    VAddr:           0x2002C4
+    Align:           0x4
+    Offset:          0x2C4
+  - Type:            PT_GNU_STACK
+    Flags:           [ PF_W, PF_R ]
+    Offset:          0x0
+  - Type:            PT_GNU_RELRO
+    Flags:           [ PF_R ]
+    FirstSec:        .tbss
+    LastSec:         .relro_padding
+    VAddr:           0x2203B0
+    Offset:          0x3B0
+Sections:
+  - Name:            .eh_frame
+    Type:            SHT_PROGBITS
+    Flags:           [ SHF_ALLOC ]
+    Address:         0x200238
+    AddressAlign:    0x8
+    Content:         1000000000000000017A5200017C1E011B0C1F0018000000180000009C0001002800000000480C1D109E029D040000001800000034000000A800010038000000004C0C1D109E029D040000001800000050000000C40001002C00000000480C1D109E029D040000001C0000006C000000D400010028000000004C0C1D109E029D040000000000000000000000
+  - Name:            .eh_frame_hdr
+    Type:            SHT_PROGBITS
+    Flags:           [ SHF_ALLOC ]
+    Address:         0x2002C4
+    AddressAlign:    0x4
+    Content:         011B033B70FFFFFF040000002C00010088FFFFFF54000100A4FFFFFF8C000100C0FFFFFFB8000100DCFFFFFF
+  - Name:            .text
+    Type:            SHT_PROGBITS
+    Flags:           [ SHF_ALLOC, SHF_EXECINSTR ]
+    Address:         0x2102F0
+    AddressAlign:    0x4
+    Content:         FD7BBFA9FD0300911F2003D51F2003D50000A0D2000280F248D03BD5006960B8FD7BC1A8C0035FD6FF8300D1FD7B01A9FD430091A0C31FB8A8C35FB81F2003D51F2003D50000A0D2000280F249D03BD5286920B8FD7B41A9FF830091C0035FD6FD7BBFA9FD0300911F2003D51F2003D50000A0D2000280F248D03BD5086960B80001080BFD7BC1A8C0035FD6FF8300D1FD7B01A9FD430091BFC31FB880008052E2FFFF97EFFFFF97FD7B41A9FF830091C0035FD6007D20D4007D20D4007D20D4
+  - Name:            .tbss
+    Type:            SHT_NOBITS
+    Flags:           [ SHF_WRITE, SHF_ALLOC, SHF_TLS ]
+    Address:         0x2203B0
+    AddressAlign:    0x4
+    Size:            0x4
+  - Name:            .got
+    Type:            SHT_PROGBITS
+    Flags:           [ SHF_WRITE, SHF_ALLOC ]
+    Address:         0x2203B0
+    AddressAlign:    0x8
+    Content:         '0000000000000000'
+  - Name:            .relro_padding
+    Type:            SHT_NOBITS
+    Flags:           [ SHF_WRITE, SHF_ALLOC ]
+    Address:         0x2203B8
+    AddressAlign:    0x1
+    Size:            0xFC48
+  - Name:            .got.plt
+    Type:            SHT_PROGBITS
+    Flags:           [ SHF_WRITE, SHF_ALLOC ]
+    Address:         0x2303B8
+    AddressAlign:    0x8
+    Content:         '000000000000000000000000000000000000000000000000'
+  - Name:            .comment
+    Type:            SHT_PROGBITS
+    Flags:           [ SHF_MERGE, SHF_STRINGS ]
+    AddressAlign:    0x1
+    EntSize:         0x1
+    Content:         005562756E747520636C616E672076657273696F6E2031342E302E302D317562756E7475312E31006D6F6C6420322E34302E342028666339366331623965666536643330623465303666653361396437383937333562636534353130653B20636F6D70617469626C65207769746820474E55206C642900
+  - Name:            .rela.eh_frame
+    Type:            SHT_RELA
+    Flags:           [ SHF_INFO_LINK ]
+    Link:            .symtab
+    AddressAlign:    0x8
+    Info:            .eh_frame
+    Relocations:
+      - Offset:          0x200254
+        Symbol:          .text
+        Type:            R_AARCH64_PREL32
+      - Offset:          0x200270
+        Symbol:          .text
+        Type:            R_AARCH64_PREL32
+        Addend:          40
+      - Offset:          0x20028C
+        Symbol:          .text
+        Type:            R_AARCH64_PREL32
+        Addend:          96
+      - Offset:          0x2002A8
+        Symbol:          .text
+        Type:            R_AARCH64_PREL32
+        Addend:          140
+  - Name:            .rela.text
+    Type:            SHT_RELA
+    Flags:           [ SHF_INFO_LINK ]
+    Link:            .symtab
+    AddressAlign:    0x8
+    Info:            .text
+    Relocations:
+      - Offset:          0x2102F8
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_ADR_PAGE21
+      - Offset:          0x2102FC
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_LD64_LO12
+      - Offset:          0x210300
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_ADD_LO12
+      - Offset:          0x210304
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_CALL
+      - Offset:          0x21032C
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_ADR_PAGE21
+      - Offset:          0x210330
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_LD64_LO12
+      - Offset:          0x210334
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_ADD_LO12
+      - Offset:          0x210338
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_CALL
+      - Offset:          0x210358
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_ADR_PAGE21
+      - Offset:          0x21035C
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_LD64_LO12
+      - Offset:          0x210360
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_ADD_LO12
+      - Offset:          0x210364
+        Symbol:          tls_var
+        Type:            R_AARCH64_TLSDESC_CALL
+      - Offset:          0x210390
+        Symbol:          set_tls
+        Type:            R_AARCH64_CALL26
+      - Offset:          0x210394
+        Symbol:          get_tls_twice
+        Type:            R_AARCH64_CALL26
+Symbols:
+  - Name:            .eh_frame
+    Type:            STT_SECTION
+    Section:         .eh_frame
+    Value:           0x200238
+  - Name:            .eh_frame_hdr
+    Type:            STT_SECTION
+    Section:         .eh_frame_hdr
+    Value:           0x2002C4
+  - Name:            .text
+    Type:            STT_SECTION
+    Section:         .text
+    Value:           0x2102F0
+  - Name:            .tbss
+    Type:            STT_SECTION
+    Section:         .tbss
+    Value:           0x2203B0
+  - Name:            .got
+    Type:            STT_SECTION
+    Section:         .got
+    Value:           0x2203B0
+  - Name:            .relro_padding
+    Type:            STT_SECTION
+    Section:         .relro_padding
+    Value:           0x2203B8
+  - Name:            .got.plt
+    Type:            STT_SECTION
+    Section:         .got.plt
+    Value:           0x2303B8
+  - Name:            .comment
+    Type:            STT_SECTION
+    Section:         .comment
+  - Name:            .rela.eh_frame
+    Type:            STT_SECTION
+    Section:         .rela.eh_frame
+  - Name:            .shstrtab
+    Type:            STT_SECTION
+    Section:         .shstrtab
+  - Name:            .strtab
+    Type:            STT_SECTION
+    Section:         .strtab
+  - Name:            .symtab
+    Type:            STT_SECTION
+    Section:         .symtab
+  - Name:            .rela.text
+    Type:            STT_SECTION
+    Section:         .rela.text
+  - Name:            tls-desc.c
+    Type:            STT_FILE
+    Index:           SHN_ABS
+  - Name:            '$x.0'
+    Section:         .text
+    Value:           0x2102F0
+  - Name:            '$d.1'
+    Section:         .tbss
+    Value:           0x2203B0
+  - Name:            '$d.2'
+    Section:         .comment
+  - Name:            get_tls
+    Type:            STT_FUNC
+    Section:         .text
+    Value:           0x2102F0
+    Size:            0x28
+  - Name:            tls_var
+    Type:            STT_TLS
+    Section:         .tbss
+    Size:            0x4
+  - Name:            set_tls
+    Type:            STT_FUNC
+    Section:         .text
+    Value:           0x210318
+    Size:            0x38
+  - Name:            get_tls_twice
+    Type:            STT_FUNC
+    Section:         .text
+    Value:           0x210350
+    Size:            0x2C
+  - Name:            main
+    Type:            STT_FUNC
+    Section:         .text
+    Value:           0x21037C
+    Size:            0x28
+  - Name:            __ehdr_start
+    Section:         .eh_frame
+    Value:           0x200000
+  - Name:            __init_array_start
+    Section:         .symtab
+  - Name:            __init_array_end
+    Section:         .symtab
+  - Name:            __fini_array_start
+    Section:         .symtab
+  - Name:            __fini_array_end
+    Section:         .symtab
+  - Name:            __preinit_array_start
+    Section:         .symtab
+  - Name:            __preinit_array_end
+    Section:         .symtab
+  - Name:            _DYNAMIC
+    Section:         .symtab
+  - Name:            _GLOBAL_OFFSET_TABLE_
+    Section:         .got
+    Value:           0x2203B0
+  - Name:            _PROCEDURE_LINKAGE_TABLE_
+  - Name:            __bss_start
+    Section:         .symtab
+  - Name:            _end
+    Section:         .got.plt
+    Value:           0x2303D0
+  - Name:            _etext
+    Section:         .text
+    Value:           0x2103B0
+  - Name:            _edata
+    Section:         .got.plt
+    Value:           0x2303D0
+  - Name:            __executable_start
+    Section:         .eh_frame
+    Value:           0x200000
+  - Name:            __rela_iplt_start
+  - Name:            __rela_iplt_end
+  - Name:            __GNU_EH_FRAME_HDR
+    Section:         .eh_frame_hdr
+    Value:           0x2002C4
+  - Name:            end
+    Section:         .got.plt
+    Value:           0x2303D0
+  - Name:            etext
+    Section:         .text
+    Value:           0x2103B0
+  - Name:            edata
+    Section:         .got.plt
+    Value:           0x2303D0
+  - Name:            __dso_handle
+    Section:         .eh_frame
+    Value:           0x200238
+  - Name:            _TLS_MODULE_BASE_
+    Type:            STT_TLS
+    Section:         .eh_frame
+    Value:           0x2203B0
+  - Name:            __start_EHDR
+    Section:         .symtab
+  - Name:            __stop_EHDR
+    Section:         .symtab
+  - Name:            __start_PHDR
+    Section:         .symtab
+  - Name:            __stop_PHDR
+    Section:         .symtab
+...
